@@ -18,16 +18,19 @@ export interface LoginResponse {
 
 export class AuthService {
   private loginUrl = 'http://localhost:5000/login';
+  private validateTokenUrl = 'http://localhost:5000/tokenValidate';
   
   constructor(private http: HttpClient) {}
 
+  // CONSUMO LOGIN API
   login(payLoad: AuthCredentials) {
     return this.http.post<LoginResponse>(this.loginUrl, payLoad);
   }
 
+  // VALIDACION TOKEN API
   validateToken(token: string): Observable<boolean> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get('http://localhost:5000/tokenValidate', { headers, observe: 'response' })
+    return this.http.get(this.validateTokenUrl, { headers, observe: 'response' })
     .pipe(
       map(response => {
         console.log(response.body, response.status);
