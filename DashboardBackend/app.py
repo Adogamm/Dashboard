@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended.exceptions import NoAuthorizationError
 
 app = Flask(__name__)
 CORS(app)
@@ -24,11 +25,16 @@ def login():
         return jsonify({"message": "Login exitoso", "token": token})
     return jsonify({"message": "Credenciales inválidas"}), 401
 
-@app.route('/dashboard', methods=['GET'])
+@app.route('/tokenValidate', methods=['GET'])
 @jwt_required()
-def dashboard():
-    user = get_jwt_identity()
-    return jsonify({"message": f"Bienvenido al dashboard, {user}!"})
+def token_validate():
+    try:
+        user = get_jwt_identity()
+        print(f"Token válido para el usuario: {user}")
+        return jsonify({"message": "Token válido", "user": user}), 200
+    except Exception:
+        print("Token inválido o ausente.")
+        return jsonify({"message": "Token inválido"}), 401
 
 if __name__ == '__main__':
     app.run(debug=True)
