@@ -9,6 +9,7 @@ export const authGuardGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const token = localStorage.getItem('authToken');
 
+  // VALIDACION DE TOKEN
   if (!token) {
     return router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } });
   }

@@ -4,8 +4,8 @@ import { DashboardComponent } from './pages/dashboard-component/dashboard-compon
 import { authGuardGuard } from './auth/auth-guard-guard';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'login', pathMatch: 'full' },
-    { path: 'login', component: LoginComponent },
-    { path: 'dashboard', component: DashboardComponent, canActivate: [authGuardGuard]},
-    { path: '**', redirectTo: 'login' }
+    { path: '', redirectTo: 'login', pathMatch: 'full' }, // Ruta por defecto
+    { path: 'login', component: LoginComponent }, // Ruta de login
+    { path: 'dashboard', component: DashboardComponent, canActivate: [authGuardGuard]}, // Ruta protegida con guard para el dashboard
+    { path: '**', redirectTo: 'login' } // Redirige rutas desconocidas a login
 ];
