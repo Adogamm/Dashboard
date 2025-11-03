@@ -13,6 +13,7 @@ users = {
     "admin": generate_password_hash('admin123')
 }
 
+# METODO PARA GENERAR EL RESPONSE DE LOGIN
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -25,6 +26,7 @@ def login():
         return jsonify({"message": "Login exitoso", "token": token})
     return jsonify({"message": "Credenciales inválidas"}), 401
 
+# METODO DE VALIDACION DE TOKEN
 @app.route('/tokenValidate', methods=['GET'])
 @jwt_required()
 def token_validate():
